@@ -1,22 +1,23 @@
-/*
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { auth, logInWithEmailAndPassword, signInWithGoogle } from "../firebase";
-import { useAuthState } from "react-firebase-hooks/auth";
 import "../css/Login.css";
 import Spinner from '../components/spinner';
+import { AuthContext } from "../contexts/authContext";
 function LoginPage() {
+  const context = useContext(AuthContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [user, loading, error] = useAuthState(auth);
+  
   const navigate = useNavigate();
-  useEffect(() => {
-    if (loading) {
-      <Spinner />
-      return;
-    }
-    if (user) navigate("/movies/home");
-  }, [user, loading]);
+
+  const login = () => {
+    context.authenticate(email, password);
+  };
+
+  if (context.isAuthenticated === true) {
+    return navigate("/movies/home")
+  }
+  
   return (
     
     <div className="login">
@@ -25,6 +26,7 @@ function LoginPage() {
         <input
           type="email"
           className="login__textBox"
+          id="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           placeholder="E-mail Address"
@@ -32,22 +34,17 @@ function LoginPage() {
         <input
           type="password"
           className="login__textBox"
+          id="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           placeholder="Password"
         />
         <button
           className="login__btn"
-          onClick={() => logInWithEmailAndPassword(email, password)}
+          onClick={login}
         >
           Login
         </button>
-        <button className="login__btn login__google" onClick={signInWithGoogle}>
-          Login with Google
-        </button>
-        <div>
-          <Link to="/reset">Forgot Password</Link>
-        </div>
         <div>
           Don't have an account? <Link to="/register">Register</Link> now.
         </div>
@@ -56,4 +53,3 @@ function LoginPage() {
   );
 }
 export default LoginPage;
-*/

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
@@ -11,7 +11,8 @@ import { useNavigate } from "react-router-dom";
 import { styled } from '@mui/material/styles';
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
-
+import { AuthContext } from "../../contexts/authContext";
+import { Link } from "react-router-dom";
 const Offset = styled('div')(({ theme }) => theme.mixins.toolbar);
 
 const SiteHeader = ({ history }) => {
@@ -23,6 +24,8 @@ const SiteHeader = ({ history }) => {
 
   const navigate = useNavigate();
 
+  const context = useContext(AuthContext);
+
   const menuOptions = [
     { label: "Home", path: "/movies/home" },
     { label: "Favorites", path: "/movies/favorites" },
@@ -32,17 +35,15 @@ const SiteHeader = ({ history }) => {
     { label: "Actors", path: "/people" },
     { label: "Trending Movies", path: "/movies/trending"},
     { label: "Trending Actors", path: "/people/trending"},
-    //{ label: "Log out", path: "/" },
+    { label: "Log out", path: "/" },
   ];
 
   const handleMenuSelect = (pageURL) => {
-    /*
     if (pageURL === "/"){
-      logout()
-        .then(() => {
-          navigate("/", {replace: true});
-        });
-    }*/
+      context.signout().then(() => {
+        navigate("/", {replace: true});
+      })
+    }
     navigate(pageURL, { replace: true });
   };
 
@@ -92,7 +93,7 @@ const SiteHeader = ({ history }) => {
                       onClick={() => handleMenuSelect(opt.path)}
                     >
                       {opt.label}
-                    </MenuItem>
+                    </MenuItem>                   
                   ))}
                 </Menu>
               </>

@@ -1,37 +1,30 @@
-/*
-import React, { useEffect, useState } from "react";
-import { useAuthState } from "react-firebase-hooks/auth";
+import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import {
-  auth,
-  registerWithEmailAndPassword,
-  signInWithGoogle,
-} from "../firebase";
 import "../css/Register.css";
+import { AuthContext } from "../contexts/authContext";
 function RegisterPage() {
+  const context = useContext(AuthContext)
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [name, setName] = useState("");
-  const [user, loading, error] = useAuthState(auth);
+  const [passwordAgain, setPasswordAgain] = useState("");
+  const [registered, setRegistered] = useState(false);
+
   const navigate = useNavigate();
   const register = () => {
-    if (!name) alert("Please enter name");
-    registerWithEmailAndPassword(name, email, password);
-  };
-  useEffect(() => {
-    if (loading) return;
-    if (user) navigate("/movies/home");
-  }, [user, loading]);
+    let passwordRegEx = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{5,}$/;
+    const validPassword = passwordRegEx.test(password);
+
+    if (validPassword && password === passwordAgain) {
+      context.register(email, password);
+      setRegistered(true);
+    }
+  }
+  if (registered) {
+    navigate("/")
+  }
   return (
     <div className="register">
       <div className="register__container">
-        <input
-          type="text"
-          className="register__textBox"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          placeholder="Full Name"
-        />
         <input
           type="text"
           className="register__textBox"
@@ -46,14 +39,15 @@ function RegisterPage() {
           onChange={(e) => setPassword(e.target.value)}
           placeholder="Password"
         />
+        <input
+          type="password"
+          className="register__textBox"
+          value={passwordAgain}
+          onChange={(e) => setPasswordAgain(e.target.value)}
+          placeholder="Password"
+        />
         <button className="register__btn" onClick={register}>
           Register
-        </button>
-        <button
-          className="register__btn register__google"
-          onClick={signInWithGoogle}
-        >
-          Register with Google
         </button>
         <div>
           Already have an account? <Link to="/">Login</Link> now.
@@ -63,4 +57,3 @@ function RegisterPage() {
   );
 }
 export default RegisterPage;
-*/
