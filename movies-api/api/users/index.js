@@ -2,6 +2,7 @@ import express from 'express';
 import User from './userModel';
 import asyncHandler from 'express-async-handler';
 import jwt from 'jsonwebtoken';
+import movieModel from '../movies/movieModel'
 import { getMovie } from '../tmdb/tmdb-api';
 const router = express.Router(); // eslint-disable-line
 
@@ -61,19 +62,19 @@ router.post('/',asyncHandler( async (req, res, next) => {
 router.post('/:userName/favourites', asyncHandler(async (req, res) => {
     const newFavourite = req.body.movie;
     const userName = req.params.userName;
-    const movie = await getMovie(newFavourite);
+    const movie = await movieModel.findByMovieDBId(newFavourite)
     const user = await User.findByUserName(userName);
-    if (user.favourites.includes(movie._id)) {
-        res.status(404).json({ code: 404, msg: 'Duplicate movie found' });
+    if (user.favourites.includes(movie.id)) {
+        return res.status(404).json({ code: 404, msg: 'Duplicate movie found' });
     }
-    await user.favourites.push(movie._id);
+    await user.favourites.push(movie.id);
     await user.save(); 
-    res.status(201).json(user); 
+    return res.status(201).json(user); 
   }));
 
 router.get('/:userName/favourites', asyncHandler( async (req, res) => {
     const userName = req.params.userName;
-    const user = await User.findByUserName(userName).populate('favourites');
-    res.status(200).json(user.favourites);
+    const user = await User.findByUserName(userName);
+    return res.status(200).json(user.favourites);
 }));
 export default router;

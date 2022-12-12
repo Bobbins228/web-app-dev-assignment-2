@@ -29,14 +29,19 @@ export const addFavourite = (username, movie) => {
   }).then(res => res.json())
 };
 
-export const getFavourites = (username, id) => {
-  return fetch(`/${username}/favourites`, {
-    headers: {
-        'Content-Type': 'application/json'
-    },
-    method: 'get',
-    body: JSON.stringify({id: id})
-  }).then(res => res.json())
+
+export const getFavourites = (username) => {
+  return fetch(
+    `/api/users/${username}/favourites`, {
+          headers: {
+              'Authorization': window.localStorage.getItem('token')
+          }
+      }
+  ).then(res => {
+      return res.json();
+  }).catch((error) => {
+      console.log(error);
+  });
 };
 
 // Assignment 1 API requests

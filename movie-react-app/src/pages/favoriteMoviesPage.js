@@ -10,9 +10,14 @@ import WriteReview from "../components/cardIcons/writeReview";
 //import { auth, db } from "../firebase";
 //import { query, collection, getDocs, where } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
-
+import { AuthContext } from "../contexts/authContext";
+import { getFavourites } from "../api/tmdb-api";
 const FavoriteMoviesPage = () => {
-  const {favorites: movieIds } = useContext(MoviesContext);
+  const userContext = useContext(AuthContext)
+  const email = userContext.userEmail
+  
+  const {favourites: movieIds } = userContext.getUserFavourites(email);
+  console.log(getFavourites(email))
   //const [user, loading, error] = useAuthState(auth);
   const [name, setName] = useState("");
   const navigate = useNavigate();
