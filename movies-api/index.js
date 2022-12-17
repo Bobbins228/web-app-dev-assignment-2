@@ -7,6 +7,7 @@ import passport from './authenticate';
 import moviesRouter from './api/movies';
 import genreRouter from './api/genres';
 import actorsRouter from './api/actors';
+import reviewsRouter from './api/reviews';
 dotenv.config();
 
 const errHandler = (err, req, res, next) => {
@@ -29,7 +30,7 @@ app.use('/api/users', usersRouter);
 app.use('/api/movies', moviesRouter)
 app.use('/api/genres', genreRouter)
 app.use('/api/actors', actorsRouter)
-
+app.use('/api/reviews', reviewsRouter)
 app.use(errHandler);
 app.listen(port, () => {
   console.info(`Server running at ${port}`);
