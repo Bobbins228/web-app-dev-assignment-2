@@ -5,7 +5,7 @@ import './seedData'
 import usersRouter from './api/users';
 import passport from './authenticate';
 import moviesRouter from './api/movies';
-
+import genreRouter from './api/genres'
 dotenv.config();
 
 const errHandler = (err, req, res, next) => {
@@ -26,6 +26,7 @@ app.use(passport.initialize());
 
 app.use('/api/users', usersRouter);
 app.use('/api/movies', moviesRouter)
+app.use('/api/genres', genreRouter)
 
 app.use(errHandler);
 app.listen(port, () => {
