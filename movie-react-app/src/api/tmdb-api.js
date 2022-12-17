@@ -37,6 +37,17 @@ export const getFavourites = async (username) => {
       method: 'get'}).then(res => res.json())
 };
 
+//Reviews
+export const addReview = (username, movie, review) => {
+  return fetch(`/api/reviews/${username}/movie/${movie.id}/reviews`, {
+    headers: {
+        'Content-Type': 'application/json'
+    },
+    method: 'post',
+    body: JSON.stringify({ author: review.author, movieId: movie.id, content: review.content, rating: review.rating })
+  }).then(res => res.json())
+};
+
 // Movies
 export const getMovies = () => {
   return fetch(

@@ -10,7 +10,7 @@ import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../contexts/authContext";
-
+import { addReview } from "../../api/tmdb-api";
 const ratings = [
   {
     value: 5,
@@ -70,8 +70,7 @@ const ReviewForm = ({ movie }) => {
   const userName = userContext.userEmail
 
   const defaultValues = {
-    author: userName,
-    review: "",
+    content: "",
     agree: false,
     rating: "3",
   };
@@ -90,8 +89,8 @@ const ReviewForm = ({ movie }) => {
   const onSubmit = (review) => {
     review.movieId = movie.id;
     review.rating = rating;
-    // console.log(review);
-    context.addReview(movie, review);
+    review.author = userName;
+    addReview(userName, movie, review);
     setOpen(true); // NEW
   };
 
@@ -123,7 +122,7 @@ const ReviewForm = ({ movie }) => {
       </Snackbar>
       <form sx={styles.form} onSubmit={handleSubmit(onSubmit)} noValidate>
         <Controller
-          name="review"
+          name="content"
           control={control}
           rules={{
             required: "Review cannot be empty.",
@@ -136,11 +135,11 @@ const ReviewForm = ({ movie }) => {
               margin="normal"
               required
               fullWidth
-              name="review"
+              name="content"
               value={value}
               onChange={onChange}
               label="Review text"
-              id="review"
+              id="content"
               multiline
               minRows={10}
             />
