@@ -1,7 +1,7 @@
 import express from 'express';
 import uniqid from 'uniqid'
 import asyncHandler from 'express-async-handler';
-import { getMovie, getMovies, getUpcomingMovies, getNowPlayingMovies, getTopRatedMovies, getRecommendedMovies, getSimilarMovies, getMovieCredits, getTrendingMovies } from '../tmdb/tmdb-api';
+import { getMovie, getMovies, getUpcomingMovies, getNowPlayingMovies, getTopRatedMovies, getRecommendedMovies, getSimilarMovies, getMovieCredits, getTrendingMovies, getMovieImages } from '../tmdb/tmdb-api';
 const router = express.Router(); 
 
 
@@ -59,6 +59,11 @@ router.get('/tmdb/trending', asyncHandler( async(req, res) => {
   res.status(200).json(movies);
 }));
 
+// Get movie images
+router.get('/tmdb/movie/:id/images', asyncHandler( async(req, res) => {
+  const images = await getMovieImages(req.params.id);
+  res.status(200).json(images);
+}));
 /*
 //Post a movie review
 router.post('/:id/reviews', (req, res) => {
