@@ -40,9 +40,8 @@ const SiteHeader = ({ history }) => {
 
   const handleMenuSelect = (pageURL) => {
     if (pageURL === "/"){
-      context.signout().then(() => {
-        navigate("/", {replace: true});
-      })
+      context.signout()
+      navigate("/", {replace: true});
     }
     navigate(pageURL, { replace: true });
   };

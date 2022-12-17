@@ -19,7 +19,8 @@ const AddToFavoritesIcon = ({ movie }) => {
       return navigate("/")
     }
     e.preventDefault();
-    return userContext.addToFavorites(userContext.userEmail, movie.id);
+    context.addToFavorites(movie);
+    userContext.addToFavorites(userContext.userEmail, movie.id);
   };
 
   return (

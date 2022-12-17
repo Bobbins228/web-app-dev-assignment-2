@@ -4,6 +4,7 @@ import './db';
 import './seedData'
 import usersRouter from './api/users';
 import passport from './authenticate';
+import moviesRouter from './api/movies';
 
 dotenv.config();
 
@@ -24,6 +25,7 @@ app.use(express.json());
 app.use(passport.initialize());
 
 app.use('/api/users', usersRouter);
+app.use('/api/movies', moviesRouter)
 
 app.use(errHandler);
 app.listen(port, () => {
