@@ -1,3 +1,81 @@
+// Login/Register
+export const login = (username, password) => {
+  return fetch('/api/users', {
+      headers: {
+          'Content-Type': 'application/json'
+      },
+      method: 'post',
+      body: JSON.stringify({ username: username, password: password })
+  }).then(res => res.json())
+};
+
+export const signup = (username, password) => {
+  return fetch('/api/users?action=register', {
+      headers: {
+          'Content-Type': 'application/json'
+      },
+      method: 'post',
+      body: JSON.stringify({ username: username, password: password })
+  }).then(res => res.json())
+};
+
+export const addFavourite = (username, movie) => {
+  return fetch(`/api/users/${username}/favourites`, {
+    headers: {
+        'Content-Type': 'application/json'
+    },
+    method: 'post',
+    body: JSON.stringify({ movie })
+  }).then(res => res.json())
+};
+
+export const getMovies = () => {
+  return fetch(
+     '/api/movies/tmdb/discover',
+  ).then(res => {
+      return res.json();
+  }).catch((error) => {
+      console.log(error);
+  });
+};
+
+export const getMovie = (args) => {
+  const [, idPart] = args.queryKey;
+  const { id } = idPart;
+  return fetch(
+    `/api/movies/tmdb/movie/${id}`,
+  ).then(res => {
+      return res.json();
+  }).catch((error) => {
+      console.log(error);
+  });
+};
+
+/*
+export const getFavourites = (username) => {
+  return fetch(
+    `/api/users/${username}/favourites`, {
+          headers: {
+              'Authorization': window.localStorage.getItem('token')
+          }
+      }
+  ).then(res => {
+      return res.json();
+  }).catch((error) => {
+      console.log(error);
+  });
+};
+*/
+export const getFavourites = async (username) => {
+  return fetch(`/api/users/${username}/favourites`, {
+      headers: {
+          'Content-Type': 'application/json'
+      },
+      method: 'get'}).then(res => res.json())
+};
+
+// Assignment 1 API requests
+/*
 export const getMovies = () => {
   return fetch(
     `https://api.themoviedb.org/3/discover/movie?api_key=${process.env.REACT_APP_TMDB_KEY}&language=en-US&include_adult=false&include_video=false&page=1`
@@ -11,7 +89,8 @@ export const getMovies = () => {
      throw error
   });
 };
-  
+*/
+/*  
   export const getMovie = (args) => {
     // console.log(args)
     const [, idPart] = args.queryKey;
@@ -28,7 +107,7 @@ export const getMovies = () => {
       throw error
   });
   };
-  
+*/  
   export const getGenres = async () => {
     return fetch(
       "https://api.themoviedb.org/3/genre/movie/list?api_key=" +

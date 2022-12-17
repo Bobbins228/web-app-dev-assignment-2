@@ -5,18 +5,22 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 //import { useAuthState } from "react-firebase-hooks/auth";
 import { useNavigate } from "react-router-dom";
 //import { auth, db } from "../../firebase";
-
+import { AuthContext } from "../../contexts/authContext";
 
 const AddToFavoritesIcon = ({ movie }) => {
   const context = useContext(MoviesContext);
+  const userContext = useContext(AuthContext);
   //const [user, loading, error] = useAuthState(auth);
   const navigate = useNavigate();
 
   const handleAddToFavorites = (e) => {
     //if (loading) return;
-    //if (!user) return navigate("/");
+    if (!userContext.isAuthenticated) {
+      return navigate("/")
+    }
     e.preventDefault();
     context.addToFavorites(movie);
+    userContext.addToFavorites(userContext.userEmail, movie.id);
   };
 
   return (

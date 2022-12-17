@@ -9,6 +9,7 @@ import { MoviesContext } from "../../contexts/moviesContext";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../../contexts/authContext";
 
 const ratings = [
   {
@@ -65,9 +66,11 @@ const ReviewForm = ({ movie }) => {
   const context = useContext(MoviesContext);
   const [open, setOpen] = useState(false); 
   const navigate = useNavigate();
+  const userContext = useContext(AuthContext)
+  const userName = userContext.userEmail
 
   const defaultValues = {
-    author: "",
+    author: userName,
     review: "",
     agree: false,
     rating: "3",
@@ -119,31 +122,6 @@ const ReviewForm = ({ movie }) => {
         </MuiAlert>
       </Snackbar>
       <form sx={styles.form} onSubmit={handleSubmit(onSubmit)} noValidate>
-        <Controller
-          name="author"
-          control={control}
-          rules={{ required: "Name is required" }}
-          defaultValue=""
-          render={({ field: { onChange, value } }) => (
-            <TextField
-              sx={{ width: "40ch" }}
-              variant="outlined"
-              margin="normal"
-              required
-              onChange={onChange}
-              value={value}
-              id="author"
-              label="Author's name"
-              name="author"
-              autoFocus
-            />
-          )}
-        />
-        {errors.author && (
-          <Typography variant="h6" component="p">
-            {errors.author.message}
-          </Typography>
-        )}
         <Controller
           name="review"
           control={control}
