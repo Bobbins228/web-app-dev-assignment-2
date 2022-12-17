@@ -26,7 +26,6 @@ const root = {
 const chip = { margin: 0.5 };
 
 const MovieDetails = ({ movie ,similarMovies, recommendedMovies, movieCredits}) => {  // Don't miss this!
-  console.log(movieCredits)
   const [drawerOpen, setDrawerOpen] = useState(false);
   return (
     <>
