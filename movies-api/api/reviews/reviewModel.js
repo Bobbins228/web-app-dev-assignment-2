@@ -11,6 +11,11 @@ const ReviewSchema = new Schema({
   created_at: {type: String, required: true },
   updated_at: {type: String, required: true}
 });
+
+ReviewSchema.statics.findByMovieId = function (movieId) {
+  return this.findOne({ movieId: movieId });
+};
+
   
 
 export default mongoose.model('Review', ReviewSchema);
