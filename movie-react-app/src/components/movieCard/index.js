@@ -14,13 +14,17 @@ import Grid from "@mui/material/Grid";
 import img from '../../images/film-poster-placeholder.png'
 import { Link } from "react-router-dom";
 import Avatar from '@mui/material/Avatar';
-import React, { useContext  } from "react";
+import React, { useContext, useState, useEffect  } from "react";
 import { MoviesContext } from "../../contexts/moviesContext";
-
+import { getFavourites } from "../../api/tmdb-api";
+import { AuthContext } from "../../contexts/authContext";
 export default function MovieCard({ movie, action }) {
-  const { favorites, addToFavorites } = useContext(MoviesContext);
+  const { favourites, addToFavorites } = useContext(MoviesContext);
+  //const [favourites, setFavourites] = useState([]);
+  const userContext = useContext(AuthContext)
+  const email = userContext.userEmail
 
-  if (favorites.find((id) => id === movie.id)) {
+  if (favourites.find((id) => id === movie.id)) {
     movie.favorite = true;
   } else {
     movie.favorite = false
