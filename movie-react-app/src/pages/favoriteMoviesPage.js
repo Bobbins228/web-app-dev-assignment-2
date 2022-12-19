@@ -15,8 +15,18 @@ import { getFavourites } from "../api/tmdb-api";
 const FavoriteMoviesPage = () => {
   const userContext = useContext(AuthContext)
   const email = userContext.userEmail
-  
-  const {favorites: movieIds } = useContext(MoviesContext);
+  const {favourites} = useContext(MoviesContext)
+  /*
+  const [favourites, setFavourites] = useState([]);
+  useEffect(() => {
+    if(userContext.isAuthenticated){
+        getFavourites(email).then((favourites) => {
+        setFavourites(favourites);
+      });
+    }
+    }, []);
+    console.log(favourites)
+  const {favourites: movieIds } = useContext(MoviesContext);
   //console.log(getFavourites(email))
   //const [user, loading, error] = useAuthState(auth);
   const [name, setName] = useState("");
@@ -43,7 +53,7 @@ const FavoriteMoviesPage = () => {
   */
   // Create an array of queries and run in parallel.
   const favoriteMovieQueries = useQueries(
-    movieIds.map((movieId) => {
+    favourites.map((movieId) => {
       return {
         queryKey: ["movie", { id: movieId }],
         queryFn: getMovie,

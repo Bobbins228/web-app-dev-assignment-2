@@ -29,6 +29,16 @@ export const addFavourite = (username, movie) => {
   }).then(res => res.json())
 };
 
+export const deleteFavourite = (username, movie) => {
+  return fetch(`/api/users/${username}/movie/${movie.id}/favourites`, {
+    headers: {
+        'Content-Type': 'application/json'
+    },
+    method: 'post',
+    body: JSON.stringify({ movie })
+  }).then(res => res.json())
+};
+
 export const getFavourites = async (username) => {
   return fetch(`/api/users/${username}/favourites`, {
       headers: {
