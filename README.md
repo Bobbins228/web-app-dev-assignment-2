@@ -78,4 +78,7 @@ All movie and actor endpoints are gathered from the api. The api uses tmdb to ge
 
 ## Independent learning (if relevant)
 
-Briefly explain any non-standard features developed for the app.   
+Using a Raspberry Pi running Ubuntu server I was able to run a production build of the react app using `serve -s build`. <br>
+The api is being run alongside it on the Pi. Using [cloudflare tunnels](https://www.cloudflare.com/products/tunnel/) and a personal domain anyone can access the website from anywhere in the world. <br>
+Although it took some time I found this to be a great free alternative hosting option but the only issue with this is that because I have an older raspberry pi the performance is a bit slow so images take a while to load.<br>
+You can find the web app at this address https://movie-app.markscampbell.com/
